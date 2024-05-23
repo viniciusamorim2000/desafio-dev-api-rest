@@ -31,7 +31,7 @@ public class TransacaoServiceImpl implements TransacaoService {
     @Override
     public TransacaoEntity efetuarTransacao(TransacaoEntity transacaoEntity) {
         ContaEntity contaEntity = buscarConta(transacaoEntity.getNumeroConta().getNumero());
-        if (transacaoEntity.getTipoTransacao().equals("DEPOSITO")){
+        if (transacaoEntity.getTipoTransacao().equals(TipoTransacao.DEPOSITO)){
             return depositar(contaEntity, transacaoEntity.getValorTransacao());
         } else {
             return sacar();
