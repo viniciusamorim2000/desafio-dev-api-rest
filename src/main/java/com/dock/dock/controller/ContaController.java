@@ -25,11 +25,12 @@ public class ContaController {
                         criarConta(cpf), ContaResponseDTO.class));
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Conta> consultarConta(@PathVariable Long id) {
-//        // Implemente a lógica para consultar uma conta aqui
-//        return ResponseEntity.ok(new Conta());
-//    }
+    @GetMapping("/{cpf}")
+    public ResponseEntity<ContaResponseDTO> consultarConta(@PathVariable String cpf) {
+        return ResponseEntity.status(HttpStatus.OK).
+                body(mapper.map(contaService.
+                        consultaConta(cpf), ContaResponseDTO.class));
+    }
 //
 //    @GetMapping("/{id}/extrato")
 //    public ResponseEntity<List<Transacao>> consultarExtrato(@PathVariable Long id, @RequestParam("inicio") String inicio, @RequestParam("fim") String fim) {
