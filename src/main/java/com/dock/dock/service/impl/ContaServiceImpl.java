@@ -29,6 +29,14 @@ public class ContaServiceImpl implements ContaService {
         return criarNovaConta(portador, numeroConta);
     }
 
+    @Override
+    public ContaEntity consultaConta(String cpf) {
+        validarCPF(cpf);
+        PortadorEntity portador = obterPortador(cpf);
+        return contaRepository.findByPortadorEntity(portador)
+                .orElseThrow(() -> new IllegalArgumentException("Conta inexistente."));
+    }
+
     private void validarCPF(String cpf) {
         if (!portadorService.validaCPF(cpf)) {
             throw new IllegalArgumentException("Operação mal sucedida.");
