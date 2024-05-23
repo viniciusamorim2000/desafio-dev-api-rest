@@ -26,14 +26,11 @@ public class PortadorController {
                         criarPortador(mapper.map(portadorRequestDTO, PortadorEntity.class)), PortadorResponseDTO.class));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{cpf}")
     public ResponseEntity<String> removerPortador(@PathVariable String cpf) {
-        try {
             portadorService.removerPortador(cpf);
             return ResponseEntity.ok("Operação realizada com sucesso.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao realizar a operação.");
         }
     }
 
-}
+
