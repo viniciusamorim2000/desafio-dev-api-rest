@@ -29,10 +29,15 @@ public class ContaServiceImpl implements ContaService {
     }
 
     @Override
-    public ContaEntity consultaConta(String cpf) {
+    public ContaEntity consultaContaPorCpf(String cpf) {
         validarCPF(cpf);
         PortadorEntity portador = obterPortador(cpf);
         return contaRepository.findByPortadorEntity(portador)
+                .orElseThrow(() -> new IllegalArgumentException("Conta inexistente."));
+    }
+
+    public ContaEntity consultaContaPorNumeroConta(Integer numeroConta){
+        return contaRepository.findByNumero(numeroConta)
                 .orElseThrow(() -> new IllegalArgumentException("Conta inexistente."));
     }
 
@@ -66,6 +71,10 @@ public class ContaServiceImpl implements ContaService {
         contaEntity.setSaldo(new BigDecimal(0));
         contaEntity.setAgencia(0001);
         return contaRepository.save(contaEntity);
+    }
+
+    public void salvarConta(ContaEntity contaEntity){
+        contaRepository.save(contaEntity);
     }
 
 

@@ -6,6 +6,6 @@ public interface ContaService {
 
     ContaEntity criarConta(String cpf);
 
-    ContaEntity consultaConta(String cpf);
+    ContaEntity consultaContaPorCpf(String cpf);
 
 }
