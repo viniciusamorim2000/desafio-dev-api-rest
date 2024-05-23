@@ -1,6 +1,6 @@
 package com.dock.dock.service;
 
-import com.dock.dock.entity.PortadorEntity;
+import com.dock.dock.domain.entity.PortadorEntity;
 
 public interface PortadorService {
 

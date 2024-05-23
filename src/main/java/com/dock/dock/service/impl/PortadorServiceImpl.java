@@ -1,6 +1,6 @@
 package com.dock.dock.service.impl;
 
-import com.dock.dock.entity.PortadorEntity;
+import com.dock.dock.domain.entity.PortadorEntity;
 import com.dock.dock.repository.PortadorRepository;
 import com.dock.dock.service.PortadorService;
 import lombok.AllArgsConstructor;

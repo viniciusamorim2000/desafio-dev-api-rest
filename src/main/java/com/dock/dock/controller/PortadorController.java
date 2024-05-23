@@ -2,7 +2,7 @@ package com.dock.dock.controller;
 
 import com.dock.dock.controller.dto.portador.PortadorRequestDTO;
 import com.dock.dock.controller.dto.portador.PortadorResponseDTO;
-import com.dock.dock.entity.PortadorEntity;
+import com.dock.dock.domain.entity.PortadorEntity;
 import com.dock.dock.service.PortadorService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
