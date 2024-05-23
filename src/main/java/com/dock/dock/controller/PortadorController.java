@@ -1,5 +1,7 @@
 package com.dock.dock.controller;
 
+import com.dock.dock.controller.dto.portador.PortadorRequestDTO;
+import com.dock.dock.controller.dto.portador.PortadorResponseDTO;
 import com.dock.dock.entity.PortadorEntity;
 import com.dock.dock.service.PortadorService;
 import org.modelmapper.ModelMapper;
@@ -18,8 +20,10 @@ public class PortadorController {
     private ModelMapper mapper;
 
     @PostMapping
-    public ResponseEntity<PortadorEntity> criarPortador(@RequestBody PortadorEntity portadorEntity) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(portadorService.criarPortador(portadorEntity));
+    public ResponseEntity<PortadorResponseDTO> criarPortador(@RequestBody PortadorRequestDTO portadorRequestDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).
+                body(mapper.map(portadorService.
+                        criarPortador(mapper.map(portadorRequestDTO, PortadorEntity.class)), PortadorResponseDTO.class));
     }
 
     @DeleteMapping

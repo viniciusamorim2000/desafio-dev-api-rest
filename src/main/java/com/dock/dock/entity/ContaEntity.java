@@ -37,4 +37,8 @@ public class ContaEntity {
 	@ManyToOne
 	@JoinColumn(name = "CPF_PORTADOR", referencedColumnName = "CPF")
 	private PortadorEntity portadorEntity;
+
+	public void setAgencia(Integer agencia) {
+		this.agencia = 0001;
+	}
 }

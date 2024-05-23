@@ -1,10 +1,8 @@
-package com.dock.dock.controller.dto;
+package com.dock.dock.controller.dto.portador;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class PortadorResponseDTO {
 
     private String cpf;

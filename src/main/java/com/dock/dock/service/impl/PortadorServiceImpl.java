@@ -41,7 +41,7 @@ public class PortadorServiceImpl implements PortadorService {
         }
     }
 
-    public static boolean validaCPF(String cpf) {
+    public boolean validaCPF(String cpf) {
         if (cpf == null || cpf.length() != 11 || !cpf.chars().allMatch(Character::isDigit)) {
             return false;
         }
@@ -68,5 +68,9 @@ public class PortadorServiceImpl implements PortadorService {
         if (segundoDigitoVerificador > 9) segundoDigitoVerificador = 0;
 
         return primeiroDigitoVerificador == numeros[9] && segundoDigitoVerificador == numeros[10];
+    }
+
+    public Optional<PortadorEntity> getPortadorByCpf(String cpf) {
+        return portadorRepository.findByCpf(cpf);
     }
 }
