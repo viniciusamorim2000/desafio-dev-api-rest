@@ -1,12 +1,16 @@
 package com.dock.dock.controller;
 
 import com.dock.dock.controller.dto.conta.ContaResponseDTO;
+import com.dock.dock.controller.dto.extrato.ExtratoResponseDTO;
 import com.dock.dock.service.ContaService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/contas")
@@ -31,12 +35,8 @@ public class ContaController {
                 body(mapper.map(contaService.
                         consultaConta(cpf), ContaResponseDTO.class));
     }
-//
-//    @GetMapping("/{id}/extrato")
-//    public ResponseEntity<List<Transacao>> consultarExtrato(@PathVariable Long id, @RequestParam("inicio") String inicio, @RequestParam("fim") String fim) {
-//        // Implemente a lógica para consultar o extrato de uma conta aqui
-//        return ResponseEntity.ok(new ArrayList<>());
-//    }
+
+
 //
 //    @DeleteMapping("/{id}")
 //    public ResponseEntity<Void> fecharConta(@PathVariable Long id) {

@@ -1,4 +1,4 @@
-package com.dock.dock.entity;
+package com.dock.dock.domain.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

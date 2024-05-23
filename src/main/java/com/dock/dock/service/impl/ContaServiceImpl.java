@@ -1,14 +1,13 @@
 package com.dock.dock.service.impl;
 
-import com.dock.dock.entity.ContaEntity;
-import com.dock.dock.entity.PortadorEntity;
+import com.dock.dock.domain.entity.ContaEntity;
+import com.dock.dock.domain.entity.PortadorEntity;
 import com.dock.dock.repository.ContaRepository;
 import com.dock.dock.service.ContaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Random;
 
@@ -66,8 +65,6 @@ public class ContaServiceImpl implements ContaService {
         contaEntity.setAtiva(true);
         contaEntity.setSaldo(new BigDecimal(0));
         contaEntity.setAgencia(0001);
-        contaEntity.setDataInicio(LocalDate.now());
-        contaEntity.setDataFim(LocalDate.now());
         return contaRepository.save(contaEntity);
     }
 

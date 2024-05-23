@@ -1,11 +1,9 @@
-package com.dock.dock.entity;
+package com.dock.dock.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Data
 @Entity
@@ -24,14 +22,6 @@ public class ContaEntity {
 
 	@Column(name = "CONTA_ATIVA")
 	private Boolean ativa;
-
-	@Column(name = "DATA_INICIO")
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private LocalDate dataInicio;
-
-	@Column(name = "DATA_FIM")
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private LocalDate dataFim;
 
 	@ManyToOne
 	@JoinColumn(name = "CPF_PORTADOR", referencedColumnName = "CPF")

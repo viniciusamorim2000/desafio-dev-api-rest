@@ -1,6 +1,6 @@
 package com.dock.dock.repository;
 
-import com.dock.dock.entity.PortadorEntity;
+import com.dock.dock.domain.entity.PortadorEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

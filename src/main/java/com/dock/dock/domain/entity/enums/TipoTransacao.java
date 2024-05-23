@@ -1,4 +1,4 @@
-package com.dock.dock.entity.enums;
+package com.dock.dock.domain.entity.enums;
 
 public enum TipoTransacao {
 
