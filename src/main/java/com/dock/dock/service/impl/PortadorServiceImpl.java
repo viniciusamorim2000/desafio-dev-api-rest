@@ -18,27 +18,31 @@ public class PortadorServiceImpl implements PortadorService {
 
     @Override
     public PortadorEntity criarPortador(PortadorEntity portadorEntity) {
-        if (validaCPF(portadorEntity.getCpf())) {
-            if (portadorRepository.findByCpf(portadorEntity.getCpf()).isPresent()) {
-                throw new IllegalArgumentException("Portador com este CPF já existe");
-            }
-            return portadorRepository.save(portadorEntity);
-        } else {
+        validarCpf(portadorEntity.getCpf());
+        if (verificaPortador(portadorEntity.getCpf()).isPresent()){
+            throw new IllegalArgumentException("Portador com este CPF já existe");
+        }
+        return portadorRepository.save(portadorEntity);
+    }
+
+    private void validarCpf(String cpf) {
+        if (!validaCPF(cpf)) {
             throw new IllegalArgumentException("CPF inválido");
         }
     }
 
+    private Optional<PortadorEntity> verificaPortador(String cpf){
+        return portadorRepository.findByCpf(cpf);
+    }
+
     @Override
     public void removerPortador(String cpf) {
-        if (validaCPF(cpf)) {
-            if (portadorRepository.findByCpf(cpf).isEmpty()) {
-                throw new IllegalArgumentException("Portador de CPF inexistente.");
-            }
-            PortadorEntity portador = portadorRepository.findByCpf(cpf).get();
-             portadorRepository.delete(portador);
-        } else {
-            throw new IllegalArgumentException("CPF inválido");
+        validarCpf(cpf);
+        if (verificaPortador(cpf).isEmpty()){
+            throw new IllegalArgumentException("Portador de CPF inexistente.");
         }
+        Optional<PortadorEntity> portador = portadorRepository.findByCpf(cpf);
+        portadorRepository.delete(portador.get());
     }
 
     public boolean validaCPF(String cpf) {
