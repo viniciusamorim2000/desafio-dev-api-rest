@@ -1,13 +1,13 @@
 package com.dock.dock.service;
 
 import com.dock.dock.domain.entity.TransacaoEntity;
-import com.dock.dock.domain.model.ExtratoModel;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.List;
 
 public interface TransacaoService {
 
-    ExtratoModel consultarExtrato(String cpf, LocalDateTime dataIncio, LocalDateTime dataFim);
+    List<TransacaoEntity> consultarExtrato(Integer numeroConta, LocalDate dataIncio, LocalDate dataFim);
 
     TransacaoEntity efetuarTransacao(TransacaoEntity transacaoEntity);
 }
