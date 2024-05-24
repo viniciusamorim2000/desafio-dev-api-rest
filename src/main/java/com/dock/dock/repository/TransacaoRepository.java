@@ -6,21 +6,21 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TransacaoRepository extends JpaRepository<TransacaoEntity , Integer> {
     List<TransacaoEntity> findByNumeroConta(@Param("numero_conta")ContaEntity numeroConta);
 
-//    @Query(value = "SELECT \tt.id_transacao, \n" +
-//            "\t\tc.numero, \n" +
-//            "\t\tc.saldo, \n" +
-//            "\t\tt.data_hora, \n" +
-//            "\t\tt.tipo, \n" +
-//            "\t\tt.valor_transacao \n" +
-//            "\t\tFROM  transacao t, Conta c\n" +
-//            "   where \n" +
-//            "\t\tc.numero = t.numero_conta ", nativeQuery = true)
-//    List<ExtratoModel> buscar
+//    @Query("SELECT t FROM TransacaoEntity t JOIN t.numeroConta n WHERE t.dataHoraTransacao BETWEEN :dataInicio AND :dataFim AND n.numero = :numeroConta")
+//    List<TransacaoEntity> findByDataHoraTransacaoBetweenAndNumeroConta(@Param("dataInicio")LocalDateTime dataInicio,
+//                                                                       @Param("dataFim")LocalDateTime dataFim,
+//                                                                       @Param("numeroConta")Integer numeroConta);
+
+    @Query("SELECT t FROM TransacaoEntity t WHERE t.dataHoraTransacao BETWEEN :dataInicio AND :dataFim AND t.numeroConta = :numeroConta")
+    List<TransacaoEntity> findByDataHoraTransacaoBetweenAndNumeroConta(@Param("dataInicio")LocalDateTime dataInicio,
+                                                                       @Param("dataFim")LocalDateTime dataFim,
+                                                                       @Param("numeroConta")ContaEntity numeroConta);
+
+
 }

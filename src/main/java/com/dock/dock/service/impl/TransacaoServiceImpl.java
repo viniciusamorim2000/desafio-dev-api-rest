@@ -3,7 +3,6 @@ package com.dock.dock.service.impl;
 import com.dock.dock.domain.entity.ContaEntity;
 import com.dock.dock.domain.entity.TransacaoEntity;
 import com.dock.dock.domain.entity.enums.TipoTransacao;
-import com.dock.dock.domain.model.ExtratoModel;
 import com.dock.dock.repository.TransacaoRepository;
 import com.dock.dock.service.TransacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,9 +25,13 @@ public class TransacaoServiceImpl implements TransacaoService {
 
     private static final BigDecimal LIMITE_DIARIO_SAQUE = new BigDecimal("2000");
 
+
     @Override
-    public ExtratoModel consultarExtrato(String cpf, LocalDateTime dataIncio, LocalDateTime dataFim) {
-        return null;
+    public List<TransacaoEntity> consultarExtrato(Integer numeroConta, LocalDate dataInicio, LocalDate dataFim) {
+        LocalDateTime inicioDoDia = dataInicio.atStartOfDay();
+        LocalDateTime fimDoDia = dataFim.atTime(23, 59, 59);
+        return transacaoRepository.findByDataHoraTransacaoBetweenAndNumeroConta(inicioDoDia, fimDoDia,
+                buscarConta(numeroConta));
     }
 
     @Override
