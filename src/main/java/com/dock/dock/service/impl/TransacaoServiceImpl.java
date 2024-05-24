@@ -47,43 +47,46 @@ public class TransacaoServiceImpl implements TransacaoService {
 
 
     private TransacaoEntity sacar(ContaEntity conta, BigDecimal valor) {
-        if (conta.getSaldo().compareTo(valor) > 0) {
-            BigDecimal valorSacadoDia = verificaTransacoes(todasTransacoesPorContaDataTransacao(conta));
-
-            if (LIMITE_DIARIO_SAQUE.compareTo(valorSacadoDia.add(valor)) > 0) {
-                conta.setSaldo(conta.getSaldo().subtract(valor));
-                contaService.salvarConta(conta);
-                TransacaoEntity transacaoEntity = new TransacaoEntity();
-                transacaoEntity.setTipoTransacao(TipoTransacao.SAQUE);
-                transacaoEntity.setValorTransacao(valor);
-                transacaoEntity.setNumeroConta(conta);
-                transacaoEntity.setDataHoraTransacao(LocalDateTime.now());
-                return salvarTransacao(transacaoEntity);
-            } else {
-                throw new IllegalArgumentException("Limite diário excedido.");
-            }
-        } else {
-            throw new IllegalArgumentException("Saldo insuficiente.");
-        }
-
+        verificarSaldo(conta, valor);
+        verificarLimiteDiario(conta, valor);
+        atualizarSaldoSaque(conta, valor);
+        return criarTransacaoSaque(conta, valor);
     }
 
-//    private BigDecimal verificaTransacoes(List<TransacaoEntity> transacoes) {
-//        return transacoes.stream()
-//                .filter(tipoTransacao -> tipoTransacao.getTipoTransacao().equals(TipoTransacao.SAQUE))
-//                .filter(dataTransacao -> dataTransacao.getDataHoraTransacao().equals(LocalDate.now()))
-//                .map(TransacaoEntity::getValorTransacao)
-//                .collect(Collectors.reducing(BigDecimal.ZERO, BigDecimal::add));
-//    }
+    private void verificarSaldo(ContaEntity conta, BigDecimal valor) {
+        if (conta.getSaldo().compareTo(valor) <= 0) {
+            throw new IllegalArgumentException("Saldo insuficiente.");
+        }
+    }
+
+    private void verificarLimiteDiario(ContaEntity conta, BigDecimal valor) {
+        BigDecimal valorSacadoDia = verificaTransacoes(todasTransacoesPorContaDataTransacao(conta));
+        if (LIMITE_DIARIO_SAQUE.compareTo(valorSacadoDia.add(valor)) <= 0) {
+            throw new IllegalArgumentException("Limite diário excedido.");
+        }
+    }
+
+    private void atualizarSaldoSaque(ContaEntity conta, BigDecimal valor) {
+        conta.setSaldo(conta.getSaldo().subtract(valor));
+        contaService.salvarConta(conta);
+    }
+
+    private TransacaoEntity criarTransacaoSaque(ContaEntity conta, BigDecimal valor) {
+        TransacaoEntity transacaoEntity = new TransacaoEntity();
+        transacaoEntity.setTipoTransacao(TipoTransacao.SAQUE);
+        transacaoEntity.setValorTransacao(valor);
+        transacaoEntity.setNumeroConta(conta);
+        transacaoEntity.setDataHoraTransacao(LocalDateTime.now());
+        return salvarTransacao(transacaoEntity);
+    }
 
     private BigDecimal verificaTransacoes(List<TransacaoEntity> transacoes) {
-
-        BigDecimal collect = transacoes.stream()
+        return transacoes.stream()
                 .filter(tipoTransacao -> tipoTransacao.getTipoTransacao().equals(TipoTransacao.SAQUE))
                 .filter(dataTransacao -> dataTransacao.getDataHoraTransacao().toLocalDate().equals(LocalDate.now()))
                 .map(TransacaoEntity::getValorTransacao)
                 .collect(Collectors.reducing(BigDecimal.ZERO, BigDecimal::add));
-        return collect;
+
     }
 
     public List<TransacaoEntity> todasTransacoesPorContaDataTransacao(ContaEntity contaEntity) {
@@ -92,16 +95,24 @@ public class TransacaoServiceImpl implements TransacaoService {
 
 
     public TransacaoEntity depositar(ContaEntity conta, BigDecimal valor) {
+        atualizarSaldoDeposito(conta, valor);
+        return criarTransacaoDeposito(conta, valor);
+    }
+
+    private void atualizarSaldoDeposito(ContaEntity conta, BigDecimal valor) {
         conta.setSaldo(conta.getSaldo().add(valor));
         contaService.salvarConta(conta);
+    }
+
+    private TransacaoEntity criarTransacaoDeposito(ContaEntity conta, BigDecimal valor) {
         TransacaoEntity transacaoEntity = new TransacaoEntity();
         transacaoEntity.setTipoTransacao(TipoTransacao.DEPOSITO);
         transacaoEntity.setValorTransacao(valor);
         transacaoEntity.setNumeroConta(conta);
         transacaoEntity.setDataHoraTransacao(LocalDateTime.now());
         return salvarTransacao(transacaoEntity);
-
     }
+
 
     public TransacaoEntity salvarTransacao(TransacaoEntity transacaoEntity) {
         return transacaoRepository.save(transacaoEntity);
