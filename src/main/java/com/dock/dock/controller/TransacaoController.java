@@ -1,10 +1,8 @@
 package com.dock.dock.controller;
 
 import com.dock.dock.controller.dto.extrato.ExtratoResponseDTO;
-import com.dock.dock.controller.dto.portador.PortadorResponseDTO;
 import com.dock.dock.controller.dto.transacao.TransacaoRequestDTO;
 import com.dock.dock.controller.dto.transacao.TransacaoResponseDTO;
-import com.dock.dock.domain.entity.PortadorEntity;
 import com.dock.dock.domain.entity.TransacaoEntity;
 import com.dock.dock.service.TransacaoService;
 import org.modelmapper.ModelMapper;
