@@ -33,10 +33,18 @@ public class ContaServiceImpl implements ContaService {
         validarCPF(cpf);
         PortadorEntity portador = obterPortador(cpf);
         return contaRepository.findByPortadorEntity(portador)
-                .orElseThrow(() -> new IllegalArgumentException("Conta inexistente."));
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Conta inexistente para o CPF: [%s].", cpf)));
     }
 
-    public ContaEntity consultaContaPorNumeroConta(Integer numeroConta){
+    @Override
+    public ContaEntity alterarStatusDaConta(String cpf, Boolean statusConta) {
+        ContaEntity contaEntity = consultaContaPorCpf(cpf);
+        contaEntity.setAtiva(statusConta);
+        return contaEntity;
+    }
+
+
+    public ContaEntity consultaContaPorNumeroConta(Integer numeroConta) {
         return contaRepository.findByNumero(numeroConta)
                 .orElseThrow(() -> new IllegalArgumentException("Conta inexistente."));
     }
@@ -73,8 +81,8 @@ public class ContaServiceImpl implements ContaService {
         return contaRepository.save(contaEntity);
     }
 
-    public void salvarConta(ContaEntity contaEntity){
-        contaRepository.save(contaEntity);
+    public ContaEntity salvarConta(ContaEntity contaEntity) {
+        return contaRepository.save(contaEntity);
     }
 
 

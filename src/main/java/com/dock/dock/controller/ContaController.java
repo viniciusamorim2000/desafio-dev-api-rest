@@ -32,11 +32,13 @@ public class ContaController {
                         consultaContaPorCpf(cpf), ContaResponseDTO.class));
     }
 
+    @PutMapping("/{cpf}")
+    public ResponseEntity<String> alterarStatusDaConta(@PathVariable String cpf, @RequestParam Boolean statusConta) {
+        ContaResponseDTO contaResponseDTO = mapper.map(contaService.alterarStatusDaConta(cpf, statusConta), ContaResponseDTO.class);
+        String status = statusConta ? "desbloqueada" : "bloqueada";
+        return ResponseEntity.ok(String.format("O Status da conta: [%s], vinculada ao CPF: [%s], foi alterada para: [%s].",
+                contaResponseDTO.getNumero(), cpf, status));
+    }
 
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> fecharConta(@PathVariable Long id) {
-//        // Implemente a lógica para fechar uma conta aqui
-//        return ResponseEntity.noContent().build();
-//    }
+
 }
