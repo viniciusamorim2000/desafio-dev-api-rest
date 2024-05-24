@@ -8,4 +8,5 @@ public interface ContaService {
 
     ContaEntity consultaContaPorCpf(String cpf);
 
+    ContaEntity alterarStatusDaConta(String cpf, Boolean statusConta);
 }
