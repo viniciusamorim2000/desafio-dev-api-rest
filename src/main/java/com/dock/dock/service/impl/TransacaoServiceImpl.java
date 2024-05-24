@@ -85,14 +85,16 @@ public class TransacaoServiceImpl implements TransacaoService {
     private BigDecimal verificaTransacoes(List<TransacaoEntity> transacoes) {
         return transacoes.stream()
                 .filter(tipoTransacao -> tipoTransacao.getTipoTransacao().equals(TipoTransacao.SAQUE))
-                .filter(dataTransacao -> dataTransacao.getDataHoraTransacao().toLocalDate().equals(LocalDate.now()))
                 .map(TransacaoEntity::getValorTransacao)
                 .collect(Collectors.reducing(BigDecimal.ZERO, BigDecimal::add));
 
     }
 
     public List<TransacaoEntity> todasTransacoesPorContaDataTransacao(ContaEntity contaEntity) {
-        return transacaoRepository.findByNumeroConta(contaEntity);
+        LocalDate diaAtual = LocalDate.now();
+        LocalDateTime inicioDia = diaAtual.atStartOfDay();
+        LocalDateTime fimDoDia = diaAtual.atTime(23, 59, 59);
+        return transacaoRepository.findByDataHoraTransacaoBetweenAndNumeroConta(inicioDia, fimDoDia, contaEntity);
     }
 
 

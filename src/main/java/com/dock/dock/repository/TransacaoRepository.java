@@ -12,11 +12,6 @@ import java.util.List;
 public interface TransacaoRepository extends JpaRepository<TransacaoEntity , Integer> {
     List<TransacaoEntity> findByNumeroConta(@Param("numero_conta")ContaEntity numeroConta);
 
-//    @Query("SELECT t FROM TransacaoEntity t JOIN t.numeroConta n WHERE t.dataHoraTransacao BETWEEN :dataInicio AND :dataFim AND n.numero = :numeroConta")
-//    List<TransacaoEntity> findByDataHoraTransacaoBetweenAndNumeroConta(@Param("dataInicio")LocalDateTime dataInicio,
-//                                                                       @Param("dataFim")LocalDateTime dataFim,
-//                                                                       @Param("numeroConta")Integer numeroConta);
-
     @Query("SELECT t FROM TransacaoEntity t WHERE t.dataHoraTransacao BETWEEN :dataInicio AND :dataFim AND t.numeroConta = :numeroConta")
     List<TransacaoEntity> findByDataHoraTransacaoBetweenAndNumeroConta(@Param("dataInicio")LocalDateTime dataInicio,
                                                                        @Param("dataFim")LocalDateTime dataFim,
