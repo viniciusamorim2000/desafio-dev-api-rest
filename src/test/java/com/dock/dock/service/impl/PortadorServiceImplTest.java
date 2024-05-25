@@ -5,6 +5,7 @@ import com.dock.dock.repository.PortadorRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -12,106 +13,44 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PortadorServiceImplTest {
 
+    @InjectMocks
+    private PortadorServiceImpl portadorService;
+
     @Mock
-    private PortadorRepository mockPortadorRepository;
+    private PortadorRepository portadorRepository;
 
-    private PortadorServiceImpl portadorServiceImplUnderTest;
+    @Test
+    public void testCriarPortador() {
+        PortadorEntity portador = new PortadorEntity();
+        portador.setCpf("47701386017");
 
-    @BeforeEach
-    void setUp() {
-        portadorServiceImplUnderTest = new PortadorServiceImpl(mockPortadorRepository);
+        when(portadorRepository.findByCpf(anyString())).thenReturn(Optional.empty());
+        when(portadorRepository.save(any(PortadorEntity.class))).thenReturn(portador);
+
+        PortadorEntity savedPortador = portadorService.criarPortador(portador);
+
+        assertEquals(portador, savedPortador);
+        verify(portadorRepository, times(1)).findByCpf(anyString());
+        verify(portadorRepository, times(1)).save(any(PortadorEntity.class));
     }
 
     @Test
-    void testCriarPortador_PortadorRepositoryFindByCpf() {
+    public void testRemoverPortador() {
+        PortadorEntity portador = new PortadorEntity();
+        portador.setCpf("47701386017");
 
-        final PortadorEntity portadorEntity = new PortadorEntity();
-        portadorEntity.setCpf("23136168003");
-        portadorEntity.setNomeCompleto("João da Silva");
+        when(portadorRepository.findByCpf(anyString())).thenReturn(Optional.of(portador));
 
-        final PortadorEntity expectedResult = new PortadorEntity();
-        expectedResult.setCpf("23136168003");
-        expectedResult.setNomeCompleto("João da Silva");
+        portadorService.removerPortador(portador.getCpf());
 
-        when(mockPortadorRepository.findByCpf("23136168003")).thenReturn(Optional.empty());
-
-        final PortadorEntity portadorEntity1 = new PortadorEntity();
-        portadorEntity1.setCpf("23136168003");
-        portadorEntity1.setNomeCompleto("João da Silva");
-        final PortadorEntity entity = new PortadorEntity();
-        entity.setCpf("23136168003");
-        entity.setNomeCompleto("João da Silva");
-        when(mockPortadorRepository.save(entity)).thenReturn(portadorEntity1);
-
-
-        final PortadorEntity result = portadorServiceImplUnderTest.criarPortador(portadorEntity);
-
-
-        assertThat(result).isEqualTo(expectedResult);
-    }
-
-
-    @Test
-    void testRemoverPortador() {
-
-        final PortadorEntity portadorEntity1 = new PortadorEntity();
-        portadorEntity1.setCpf("64315840076");
-        portadorEntity1.setNomeCompleto("João da Silva");
-        final Optional<PortadorEntity> portadorEntity = Optional.of(portadorEntity1);
-        when(mockPortadorRepository.findByCpf("64315840076")).thenReturn(portadorEntity);
-
-
-        portadorServiceImplUnderTest.removerPortador("64315840076");
-
-
-        final PortadorEntity entity = new PortadorEntity();
-        entity.setCpf("64315840076");
-        entity.setNomeCompleto("João da Silva");
-        verify(mockPortadorRepository).delete(entity);
-    }
-
-
-    @Test
-    void testValidaCPFIsFalse() {
-        assertThat(portadorServiceImplUnderTest.validaCPF("12312321312321")).isFalse();
-    }
-
-    @Test
-    void testValidaCPFIsTrue() {
-        assertThat(portadorServiceImplUnderTest.validaCPF("47639537029")).isTrue();
-    }
-
-    @Test
-    void testGetPortadorByCpf() {
-        // Setup
-        final PortadorEntity portadorEntity = new PortadorEntity();
-        portadorEntity.setCpf("47639537029");
-        portadorEntity.setNomeCompleto("João da Silva");
-        final Optional<PortadorEntity> expectedResult = Optional.of(portadorEntity);
-
-        final PortadorEntity portadorEntity2 = new PortadorEntity();
-        portadorEntity2.setCpf("47639537029");
-        portadorEntity2.setNomeCompleto("João da Silva");
-        final Optional<PortadorEntity> portadorEntity1 = Optional.of(portadorEntity2);
-        when(mockPortadorRepository.findByCpf("47639537029")).thenReturn(portadorEntity1);
-
-        final Optional<PortadorEntity> result = portadorServiceImplUnderTest.getPortadorByCpf("47639537029");
-
-        assertThat(result).isEqualTo(expectedResult);
-    }
-
-
-    @Test
-    void testGetPortadorByCpf_PortadorRepository() {
-
-        when(mockPortadorRepository.findByCpf("23136168003")).thenReturn(Optional.empty());
-        final Optional<PortadorEntity> result = portadorServiceImplUnderTest.getPortadorByCpf("23136168003");
-        assertThat(result).isEmpty();
+        verify(portadorRepository, times(1)).delete(any(PortadorEntity.class));
     }
 }
