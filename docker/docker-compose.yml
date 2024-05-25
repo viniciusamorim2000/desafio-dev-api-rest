@@ -7,5 +7,6 @@ services:
     environment:
       POSTGRES_USER: desafiodock
       POSTGRES_PASSWORD: desafiodock
+      POSTGRES_DB: postgres
     ports:
       - 5432:5432
