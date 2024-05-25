@@ -1,50 +1,39 @@
-# Cenário
+# Desafio Dock: Executando a Aplicação Java
 
-A Dock está crescendo e expandindo seus negócios, gerando novas oportunidades de revolucionar o mercado financeiro e criar produtos diferenciados.
-Nossa próxima missão é construir uma nova conta digital Dock para nossos clientes utilizarem através de endpoints, onde receberemos requisições em um novo backend que deverá gerenciar as contas e seus portadores (os donos das contas digitais).
+## Introdução
+O Desafio Dock é uma aplicação Java que simula um cenário bancário. Nesta aplicação, você pode cadastrar portadores, abrir contas e realizar transações de saque e depósito. Para executar a aplicação, siga as instruções abaixo.
 
-# Requisitos
+## Pré-requisitos
+Antes de executar o Desafio Dock, certifique-se de ter o seguinte instalado:
 
-- Deve ser possível criar e remover **portadores**
-    - Um **portador** deve conter apenas seu *nome completo* e *CPF*
-    - O *CPF* deve ser válido e único no cadastro de **portadores**
-- As **contas digital Dock** devem conter as seguintes funcionalidades:
-    - A conta deve ser criada utilizando o *CPF* do **portador**
-    - Uma conta deve ter seu *saldo*, *número* e *agência* disponíveis para consulta
-    - Necessário ter funcionalidade para fazer a *consulta de extrato* da conta *por período*
-    - Um **portador** pode fechar a **conta digital Dock** a qualquer instante
-    - Executar as operações de *saque* e *depósito*
-        - *Depósito* é liberado para todas as *contas ativas* e *desbloqueadas*
-        - *Saque* é permitido para todas as *contas ativas* e *desbloqueadas* desde que haja *saldo disponível* e não ultrapasse o limite diário de *2 mil reais*
+1. **Java 17**: Certifique-se de ter o JDK 17 instalado em sua máquina.
+2. **Docker**: Você precisará do Docker instalado para executar o banco de dados PostgreSQL.
 
-## Regulação obrigatória
+## Instruções para Execução
+1. Clone o repositório do Desafio Dock em sua máquina.
+2. Navegue até a pasta `docker` no diretório do projeto.
+3. Execute o seguinte comando para iniciar o banco de dados PostgreSQL usando o Docker Compose:
 
-- Precisamos *bloquear* e *desbloquear* a **conta digital Dock** a qualquer momento
-- A **conta digital Dock** nunca poderá ter o *saldo negativo*
+- `docker-compose up`
 
+4. Crie as seguintes variáveis de ambiente (seja no computador ou na IDE):
+- `DB_USER=desafiodock`
+- `DB_PASSWORD=desafiodock`
+  Essas variáveis contêm as credenciais para acessar o banco de dados.
 
-#  Orientações
+## Documentação das APIs
+A aplicação utiliza as seguintes tecnologias:
 
-Utilize qualquer uma das linguagens de programação:
-- Java
-- Javascript
-- Typescript
-- Python
-- Kotlin
-- Golang
+- **Spring Boot**: Framework para desenvolvimento de aplicações Java.
+- **PostgreSQL**: Banco de dados relacional.
+- **JPA (Java Persistence API)**: Para mapeamento objeto-relacional.
+- **ModelMapper**: Biblioteca para mapeamento entre objetos.
+- **JPQL (Java Persistence Query Language)**: Para consultas personalizadas.
+- **Swagger**: Documentação das APIs disponível em http://localhost:8080/swagger-ui/index.html.
 
-Desenvolva o case seguindo as melhores práticas que julgar necessário, aplique todos os conceitos, se atente a qualidade, utilize toda e qualquer forma de governança de código válido. Vamos considerar toda e qualquer implementação, trecho de código, documentação e/ou intenção compartilhada conosco. Esperamos também que o desafio seja feito dentro do tempo disponibilizado e que esteja condizente com a posição pretendida.
+!Desafio Dock Logo
 
-É necessário ter o desafio 100% funcional contendo informações e detalhes sobre: como iniciar a aplicação, interagir com as funcionalidades disponíveis e qualquer outro ponto adicional.
+## Importando a Collection
+Na pasta `collection`, você encontrará um arquivo JSON que pode ser importado no Insomnia ou Postman para testar as APIs.
 
-## Diferenciais
-
-- Práticas, padrões e conceitos de microservices será considerado um diferencial para nós por existir uma variedade de produtos e serviços dentro da Dock.
-- Temos 100% das nossas aplicações e infraestrutura na nuvem, consideramos um diferencial, caso o desafio seja projeto para ser executado na nuvem.
-- Nossos times são autônomos e têm liberdade para definir arquiteturas e soluções. Por este motivo será considerado diferencial toda: arquitetura, design, paradigma e documentação detalhando a sua abordagem.
-
-### Instruções
-      1. Faça o fork do desafio;
-      2. Crie um repositório privado no seu github para o projeto e adicione como colaborador, os usuários informados no email pelo time de recrutameto ;
-      3. Após concluir seu trabalho faça um push; 
-      4. Envie um e-mail à pessoa que está mantendo o contato com você durante o processo notificando a finalização do desafio para validação.
+Agora você está pronto para executar o Desafio Dock! 🚀
