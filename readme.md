@@ -19,6 +19,11 @@ Antes de executar o Desafio Dock, certifique-se de ter o seguinte instalado:
 4. Crie as seguintes variáveis de ambiente (seja no computador ou na IDE):
 - `DB_USER=desafiodock`
 - `DB_PASSWORD=desafiodock`
+- `DB_HOST=localhost`
+- `DB_PORT=5432`
+- `DB_NAME=postgres`
+
+
   Essas variáveis contêm as credenciais para acessar o banco de dados.
 
 ## Documentação das APIs
