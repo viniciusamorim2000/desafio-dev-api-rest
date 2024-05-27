@@ -34,6 +34,7 @@ A aplicação utiliza as seguintes tecnologias:
 - **JPA (Java Persistence API)**: Para mapeamento objeto-relacional.
 - **ModelMapper**: Biblioteca para mapeamento entre objetos.
 - **JPQL (Java Persistence Query Language)**: Para consultas personalizadas.
+- **JUnit 5 e Mockito**: Para testes unitários.
 - **Swagger**: Documentação das APIs disponível em http://localhost:8080/swagger-ui/index.html.
 
 !Desafio Dock Logo
